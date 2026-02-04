@@ -6,6 +6,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Literal
+import json
+
 
 
 
@@ -33,6 +35,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=80.0,
         help="Warning threshold for disk usage percent (default: 80)",
+    )
+    p.add_argument(
+        "--format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format: text or json (default: text)",
     )
     return p
 
@@ -70,10 +78,27 @@ def main() -> int:
         f"Used:  {disk['used_gb']} GB ({disk['used_percent']}%)",
         f"Free:  {disk['free_gb']} GB",
     ]
+    payload = {
+        "generated": now,
+        "host": host,
+        "os": os_info,
+        "disk": disk,
+        "threshold": args.threshold,
+        "status": status,
+    }
 
-    report_file.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Report written to {report_file}")
-    print(f"Threshold: {args.threshold}% | Current usage: {disk['used_percent']}%")
+    if args.format == "json":
+        json_file = out_dir / f"system_report_{stamp}.json"
+        json_file.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        print(json.dumps(payload, indent=2))
+
+    else:
+        report_file.write_text("\n".join(lines), encoding="utf-8")
+        print("\n".join(lines))
+        
+    if args.format == "text":
+        print(f"Report written to {report_file}")
+        print(f"Threshold: {args.threshold}% | Current usage: {disk['used_percent']}%")
     log_file = out_dir / "run.log"
     log_line = (
         f"{now} | path={args.path} | threshold={args.threshold} "
