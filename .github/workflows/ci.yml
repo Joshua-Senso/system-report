@@ -1,0 +1,9 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  system-report-ci:
+    runs-on: ubuntu-latest
