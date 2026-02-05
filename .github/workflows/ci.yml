@@ -14,3 +14,9 @@ jobs:
 
       - name: Show Python version
         run: python3 --version
+        
+      - name: Run system report (text)
+        run: python3 report.py --format text
+
+      - name: Run system report (json)
+        run: python3 report.py --format json
