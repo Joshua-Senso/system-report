@@ -1,7 +1,7 @@
-terraform {
-  required_version = ">= 1.6.0"
+terraform{
+required_version=">=1.6.0"
 }
 
-provider "aws" {
-  region = "ap-southeast-1"
+provider "aws"{
+region="ap-southeast-1"
 }
