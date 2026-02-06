@@ -26,3 +26,10 @@ jobs:
       - name: Terraform validate
         run: terraform validate
         working-directory: terraform
+
+      - name: tfsec (security scan)
+        uses: aquasecurity/tfsec-action@v1
+        with:
+          working_directory: terraform
+        
+        
