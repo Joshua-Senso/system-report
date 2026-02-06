@@ -28,7 +28,7 @@ jobs:
         working-directory: terraform
 
       - name: tfsec (security scan)
-        uses: aquasecurity/tfsec-action@v1
+        uses: aquasecurity/tfsec-action@v1.0.3
         with:
           working_directory: terraform
         
