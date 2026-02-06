@@ -23,7 +23,7 @@ jobs:
         working-directory: terraform
 
       - name: Terraform init (no backend)
-        run: terraform init -backend=false -lockfile=read only
+        run: terraform init -backend=false -lockfile=readonly
         working-directory: terraform
 
       - name: Terraform validate
