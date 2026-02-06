@@ -36,14 +36,16 @@ jobs:
         working-directory: terraform
 
       - name: Terraform plan (dry-run)
-        run: terraform plan -no-color -refresh=false > plan.text
+        run: |
+         terraform plan -no-color -refresh=false | tee plan.txt
         working-directory: terraform
 
       - name: Upload terraform plan artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-         name: terraform-plan
-        path: terraform/plan.txt 
+          name: terraform-plan
+          path: terraform/plan.txt
 
       - name: tfsec (security scan)
         uses: aquasecurity/tfsec-action@v1.0.3
